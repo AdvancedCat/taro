@@ -9,13 +9,13 @@
     "request": "launch",
     "name": "CLI debug",
     "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
-    // "cwd": "${project absolute path}",
-    // "args": [
-    //   "build",
-    //   "--type",
-    //   "weapp",
-    //   "--watch"
-    // ],
+    "cwd": "/Users/xinhong/code/Taro-Lib/taro-harmony-react",
+    "args": [
+      "build",
+      "--type",
+      "harmony",
+      "--watch"
+    ],
     "skipFiles": [
       "<node_internals>/**"
     ]
