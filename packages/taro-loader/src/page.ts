@@ -9,10 +9,11 @@ interface PageConfig {
   path: string
 }
 
+// HX: 在文件 MiniPlugin.ts 中被调用
 export default function (this: webpack.LoaderContext<any>, source: string) {
   const options = getOptions(this)
   const { config: loaderConfig } = options
-  const config = getPageConfig(loaderConfig, this.resourcePath)
+  const config = getPageConfig(loaderConfig, this.resourcePath) // HX: loaderConfig 已经在 MiniPlugin 插件初始化时赋值过了
   const configString = JSON.stringify(config)
   const stringify = (s: string): string => stringifyRequest(this, s)
   const { isNeedRawLoader, modifyInstantiate } = options.loaderMeta
@@ -58,6 +59,7 @@ ${hmr}
 `
 }
 
+// HX: 从 configs 中提取出 页面配置.json 内容，否则返回空
 export function getPageConfig (configs: Record<string, PageConfig>, resourcePath: string) {
   const configPath = removeExt(resourcePath) + '.config'
   for (const name in configs) {

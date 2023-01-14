@@ -5,10 +5,12 @@ import { REG_POST } from './constants'
 
 import type * as webpack from 'webpack'
 
+// 在 MiniPlugin.ts 中使用该插件
+// 需要注意的该文件才是 @tarojs/taro-loader 的 main 入口文件
 export default function (this: webpack.LoaderContext<any>) {
   const stringify = (s: string): string => stringifyRequest(this, s)
 
-  const options = getOptions(this)
+  const options = getOptions(this) // HX: 获取当前插件配置的options
   const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = options.loaderMeta
   const config = JSON.stringify(options.config)
   const blended = options.blended
@@ -43,7 +45,7 @@ exports.taroApp = app
 `
     : `var inst = App(${createApp})`
 
-  if (typeof modifyInstantiate === 'function') {
+  if (typeof modifyInstantiate === 'function') {  // HX: 给 Harmony 用的，已经抽离出去了
     instantiateApp = modifyInstantiate(instantiateApp, 'app')
   }
 

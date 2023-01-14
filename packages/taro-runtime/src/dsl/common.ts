@@ -145,6 +145,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       setCurrentRouter(this)
 
       const mount = () => {
+        // HX: 页面完成加载后，初始data是 {root: {cn:[]}}，因此页面时空的，但这里立即 app.forceUpdate，让页面的data丰富起来
         Current.app!.mount!(component, $taroPath, () => {
           pageElement = env.document.getElementById<TaroRootElement>($taroPath)
 

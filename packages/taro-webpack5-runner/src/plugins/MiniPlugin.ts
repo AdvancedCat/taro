@@ -164,7 +164,7 @@ export default class TaroMiniPlugin {
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
       this.tryAsync<Compiler>(async compiler => {
-        await this.run(compiler)
+        await this.run(compiler)  // HX: 进一步完成插件初始化
         new TaroLoadChunksPlugin({
           commonChunks: commonChunks,
           isBuildPlugin,
@@ -227,7 +227,7 @@ export default class TaroMiniPlugin {
        * 往 NormalModule.loaders 中插入对应的 Taro Loader
        */
       compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
-        const { framework, loaderMeta, designWidth, deviceRatio } = this.options
+        const { framework, loaderMeta, designWidth, deviceRatio } = this.options  // HX：在 packages/taro-mini-runner/src/webpack/build.conf.ts 初始化参数
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
           if (!isLoaderExist(module.loaders, loaderName)) {

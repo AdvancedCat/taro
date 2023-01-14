@@ -100,7 +100,7 @@ export function connectReactPage (
     if (reactMeta.PageContext === EMPTY_OBJ) {
       reactMeta.PageContext = R.createContext('')
     }
-
+    // HX: 使用 PageWrapper 包裹用户写的 Page 组件，方便植入一些信息
     return class PageWrapper extends R.Component<PageProps, { hasError: boolean }> {
       state = {
         hasError: false
@@ -136,7 +136,7 @@ export function connectReactPage (
           )
         } else {
           return h(
-            'root',
+            'root',  // HX: 还记得 {root: {cn: []}} 么?
             { id },
             children
           )
@@ -206,6 +206,7 @@ export function createReactApp (
     }
 
     public mount (pageComponent: ReactPageComponent, id: string, cb: () => void) {
+      // HX: 高阶组件，返回 PageWrapper 组件
       const pageWrapper = connectReactPage(react, id)(pageComponent)
       const key = id + pageKeyId()
       const page = () => h(pageWrapper, { key, tid: id })
